@@ -1,0 +1,28 @@
+{
+  "users": [
+    {
+      "id": "",
+      "name": "",
+      "email": "",
+      "password": ""
+    },
+    {
+      "id": "7f6c",
+      "email": "mehrusama912@gmail.com",
+      "name": "user3",
+      "password": "876876"
+    },
+    {
+      "id": "b2d9",
+      "email": "wabdul752@gmail.com",
+      "name": "usama",
+      "password": "444"
+    },
+    {
+      "id": "9c1f",
+      "email": "faizanhassan47@gmail.com",
+      "name": "uzair",
+      "password": "999"
+    }
+  ]
+}
