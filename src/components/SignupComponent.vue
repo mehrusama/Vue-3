@@ -108,11 +108,11 @@ input {
     <form name="signup-form" @submit.prevent="handleSignup" class="signup-form">
       <div class="form-group">
         <label for="email">Email:</label>
-        <input id="email" type="email" v-model="form.email" required />
+        <input id="email" type="email" placeholder="Enter Email" v-model="form.email" required />
       </div>
       <div class="form-group">
         <label for="username">Username:</label>
-        <input id="username" type="text" v-model="form.username" required />
+        <input id="username" type="text" placeholder="Enter Username" v-model="form.username" required />
       </div>
       <div class="form-group">
         <label for="password">Password:</label>

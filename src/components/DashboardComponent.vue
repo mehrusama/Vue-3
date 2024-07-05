@@ -1,40 +1,105 @@
 <template>
-  <div class="home-container">
-    <h1 class="h1">Welcome to the Dashboard!</h1>
-    <h1 class="h1">Usama!</h1>
-    <!-- <router-link to="/login">Go to Login</router-link>
-  <router-link to="/signup">Signup</router-link>  -->
-  </div>
-  <div>
-    <h1>Welcome to Teresol!</h1>
-    <h2>Welcome to Teresol!</h2>
-    <h3>Welcome to Teresol!</h3>
+  <div class="task-container">
+    <div>
+      <h1>To-Do List</h1>
+      <ul>
+        <li v-for="task in tasks" :key="task.id">
+          <span v-for="prop in displayedProps">{{ task[prop] }}</span>
+          <button style="background-color: green" @click="editTask(task)">Update</button>
+          <button style="background-color: red" @click="deleteTask(task.id)">Delete</button>
+        </li>
+      </ul>
+      <form v-if="addtask" @submit.prevent="addTask">
+        <input v-model="newTask.title" placeholder="Title" required />
+        <input v-model="newTask.description" placeholder="Description" required />
+        <input v-model="newTask.dueDate" type="date" required />
+        <select v-model="newTask.priority" required>
+          <option disabled value="">Select Priority</option>
+          <option>High</option>
+          <option>Medium</option>
+          <option>Low</option>
+        </select>
+        <button class="add-btn" type="submit">Add Task</button>
+      </form>
+      <button v-if='!addtask' @click="addtask=true" class="add-btn" type="submit">Add Task</button>
+      <form v-if="isEditing" @submit.prevent="updateTask">
+        <input v-model="currentTask.title" placeholder="Title" required />
+        <input v-model="currentTask.description" placeholder="Description" required />
+        <input v-model="currentTask.dueDate" type="date" required />
+        <select v-model="currentTask.priority" required>
+          <option disabled value="">Select Priority</option>
+          <option>High</option>
+          <option>Medium</option>
+          <option>Low</option>
+        </select>
+        <button class="update-btn" type="submit">Update Task</button>
+      </form>
+    </div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref, onMounted, reactive } from 'vue'
+import { useStore } from 'vuex'
 
-<!-- <style scoped>
-.h1 {
-  color: #ffee00;
-  background-color: rgb(204, 30, 210);
-  text-align: center;
-  padding: 20px;
-  margin-top: 300px;
+const store = useStore()
+const tasks = ref(store.getters.allTasks)
+const displayedProps = ref(['title', 'description', 'dueDate', 'priority'])
+const newTask = reactive({
+  title: '',
+  description: '',
+  dueDate: '',
+  priority: '',
+  completed: false
+})
+let currentTask = reactive({title: '', description: '', dueDate: '', priority:'' })
+const isEditing = ref(false)
+const addtask = ref(false)
+onMounted(async () => {
+  await store.dispatch('fetchTasks')
+  tasks.value = store.getters.allTasks
+})
+
+const addTask = async () => {
+  await store.dispatch('addTask', newTask)
+  addtask.value = false
+  tasks.value = store.getters.allTasks
 }
-</style> -->
+
+const editTask = (task) => {
+  currentTask =  task 
+  isEditing.value = true
+}
+const updateTask = async () => {
+  await store.dispatch('updateTask', currentTask)
+  currentTask = { id: null, title: '', description: '', dueDate: '', priority: '' }
+  isEditing.value = false
+  tasks.value = store.getters.allTasks
+}
+
+const deleteTask = async (task) => {
+  await store.dispatch('deleteTask', task)
+  tasks.value = store.getters.allTasks
+}
+
+</script>
+
 <style scoped>
-.home-container {
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: linear-gradient(to right, #6a11cb, #2575fc);
-  color: #fff;
-  text-align: center;
-  padding: 20px;
-  box-sizing: border-box;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+button {
+  margin: 10px;
 }
 
 h1 {
@@ -43,13 +108,7 @@ h1 {
   animation: fadeIn 2s ease-in-out;
 }
 
-p {
-  font-size: 1.2em;
-  margin-bottom: 30px;
-  animation: fadeIn 2s ease-in-out;
-}
-
-.interactive-btn {
+button {
   padding: 10px 20px;
   font-size: 1em;
   color: #fff;
@@ -62,12 +121,12 @@ p {
     transform 0.3s;
 }
 
-.interactive-btn:hover {
+button:hover {
   background-color: #0056b3;
   transform: scale(1.05);
 }
 
-.interactive-btn:active {
+button:active {
   background-color: #003d82;
 }
 
@@ -78,5 +137,18 @@ p {
   to {
     opacity: 1;
   }
+}
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+  box-sizing: content-box;
 }
 </style>

@@ -1,10 +1,10 @@
 {
   "users": [
     {
-      "id": "",
-      "name": "",
-      "email": "",
-      "password": ""
+      "id": "1",
+      "name": "hamza",
+      "email": "hamza@gmail.com",
+      "password": "890"
     },
     {
       "id": "7f6c",
@@ -23,6 +23,24 @@
       "email": "faizanhassan47@gmail.com",
       "name": "uzair",
       "password": "999"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "4cdd",
+      "title": "oidoid",
+      "description": "kjsnu",
+      "dueDate": "2024-07-08",
+      "priority": "Low",
+      "completed": false
+    },
+    {
+      "id": "ba7f",
+      "title": "jklk",
+      "description": "mdlkd",
+      "dueDate": "2024-07-02",
+      "priority": "High",
+      "completed": false
     }
   ]
 }

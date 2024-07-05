@@ -104,7 +104,7 @@ input {
     <form name="login-form" @submit.prevent="handleLogin" class="login-form">
       <div class="form-group">
         <label for="username">Username:</label>
-        <input id="username" type="text" v-model="form.username" required />
+        <input id="username" type="text" placeholder="Enter Username" v-model="form.username" required />
       </div>
       <div class="form-group">
         <label for="password">Password:</label>
